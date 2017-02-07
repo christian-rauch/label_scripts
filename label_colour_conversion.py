@@ -18,19 +18,21 @@ import multiprocessing
 
 def label_to_colour(f):
     img = io.imread(f)
-    # check and skip label images that have already been converted
-    if img.ndim == 3 and (np.any(img[:, :, 0] != img[:, :, 1]) and np.any(img[:, :, 0] != img[:, :, 2])):
+    # determine if image is colour or gray label, check if all channels are equal
+    # we need img.ndim==3 for lazy evaluation (to not to test 'np.array_equal' on a not avilable 3rd channel)
+    if img.ndim==3 and ((not np.array_equal(img[:, :, 0],img[:, :, 1])) and (not np.array_equal(img[:, :, 0],img[:, :, 2]))):
         print(f)
         print("not a gray lebel image!")
         return
-    else:
+    elif img.ndim==3:
+        # gray image with 3 channels
         img = img[:, :, 0]
 
     # create new label image with colours instead of gray levels
     cimg = np.empty((img.shape[0], img.shape[1], 3), dtype=np.uint8)
-    for i in range(img.shape[0]):
-        for j in range(img.shape[1]):
-            cimg[i, j, :] = colours[img[i, j]]
+
+    for k in colours.keys():
+        cimg[img==k,:] = colours[k]
 
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
