@@ -19,7 +19,7 @@ import multiprocessing
 def label_to_colour(f):
     img = io.imread(f)
     # check for colour image
-    if img.ndim!=3:
+    if img.ndim!=3 or ( img.ndim==3 and np.array_equal(img[:, :, 0],img[:, :, 1]) and np.array_equal(img[:, :, 0],img[:, :, 2]) ):
         print(f)
         print("not a colour image!")
         return
