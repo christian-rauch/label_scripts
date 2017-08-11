@@ -23,12 +23,32 @@ def main():
     # each link in list must have a mesh, e.g. must have been rendered
     # links not mentioned in this list will be set to background (class 0)
     label_merge = []
-    label_merge.append(["leftPalm"])
-    label_merge.append(["leftForearmLink"])
-    label_merge.append(["leftIndexFingerPitch1Link", "leftIndexFingerPitch2Link", "leftIndexFingerPitch3Link",
-                        "leftMiddleFingerPitch1Link", "leftMiddleFingerPitch2Link", "leftMiddleFingerPitch3Link",
-                        "leftPinkyPitch1Link", "leftPinkyPitch2Link", "leftPinkyPitch3Link",
-                        "leftThumbPitch1Link", "leftThumbPitch2Link", "leftThumbPitch3Link", "leftThumbRollLink",])
+    # label_merge.append(["leftPalm"])
+    # label_merge.append(["leftForearmLink"])
+    # label_merge.append(["leftIndexFingerPitch1Link", "leftIndexFingerPitch2Link", "leftIndexFingerPitch3Link",
+    #                     "leftMiddleFingerPitch1Link", "leftMiddleFingerPitch2Link", "leftMiddleFingerPitch3Link",
+    #                     "leftPinkyPitch1Link", "leftPinkyPitch2Link", "leftPinkyPitch3Link",
+    #                     "leftThumbPitch1Link", "leftThumbPitch2Link", "leftThumbPitch3Link", "leftThumbRollLink",])
+
+    # shape similar parts: arm, palm+fingers1, fingers2, fingers3 (parts3)
+    # label_merge.append(
+    #     ["base", "lwr_arm_1_link", "lwr_arm_2_link", "lwr_arm_3_link", "lwr_arm_4_link", "lwr_arm_5_link",
+    #      "lwr_arm_6_link", "lwr_arm_7_link"])
+    # label_merge.append(["sdh_palm_link", "sdh_finger_11_link", "sdh_finger_21_link", "sdh_thumb_1_link"])
+    # label_merge.append(["sdh_finger_12_link", "sdh_finger_22_link", "sdh_thumb_2_link"])
+    # label_merge.append(["sdh_finger_13_link", "sdh_finger_23_link", "sdh_thumb_3_link"])
+
+    # (parts4)
+    label_merge.append(
+        ["base", "lwr_arm_1_link", "lwr_arm_2_link", "lwr_arm_3_link", "lwr_arm_4_link", "lwr_arm_5_link",
+         "lwr_arm_6_link", "lwr_arm_7_link"])
+    label_merge.append(["sdh_palm_link", "sdh_finger_11_link", "sdh_finger_21_link", "sdh_thumb_1_link"])
+    label_merge.append(["sdh_finger_12_link"])
+    label_merge.append(["sdh_finger_22_link"])
+    label_merge.append(["sdh_thumb_2_link"])
+    label_merge.append(["sdh_finger_13_link"])
+    label_merge.append(["sdh_finger_23_link"])
+    label_merge.append(["sdh_thumb_3_link"])
 
     # get link labels
     link_id = {}
