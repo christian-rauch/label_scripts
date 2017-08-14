@@ -3,11 +3,13 @@
 # merge multiple classes into a single class after feature generation
 # ./merge_classes_hdf5.py <path_to/feats.h5> <path_to>/link_label.csv
 
+from __future__ import print_function
 import tables
 import sys, os
 import csv
 
 import h5py
+import numpy as np
 
 label_merge = []
 # arm and hand
@@ -73,6 +75,7 @@ def main():
     #f = tables.open_file(os.path.join(feat_path, "feats.h5"), mode='r')
     f = tables.open_file(feat_path, mode='r')
     train_y = f.root.data_y[:, :]
+    train_x = f.root.data_x[:, :]
     f.close()
 
     # replace 3c label by 1c label
@@ -85,10 +88,25 @@ def main():
         for ll in lm:
             train_y[train_y == label_name[ll]] = label_name[lm[0]]
 
+    print(np.unique(train_y, return_counts=True))
+    lbl_id, lbl_count = np.unique(train_y, return_counts=True)
+    nr_rem = lbl_count - lbl_count.min()
+    for irem in range(len(lbl_id)):
+        print("remove", nr_rem[irem], "samples from class", lbl_id[irem])
+        if nr_rem[irem] > 0:
+            rem_id = np.random.choice(np.where(train_y == int(lbl_id[irem]))[0], nr_rem[irem])
+            train_y = np.delete(train_y, rem_id, axis=0)
+            train_x = np.delete(train_x, rem_id, axis=0)
+
     # write changes back to file
-    #f = h5py.File(os.path.join(feat_path, "feats.h5"), 'r+')
     f = h5py.File(feat_path, 'r+')
-    f['data_y'][:] = train_y
+
+    # this will in fact not remove the data but just the dataset pointer, and create a new dataset with the same name
+    del f['data_y']
+    f.create_dataset('data_y', data=train_y)
+    del f['data_x']
+    f.create_dataset('data_x', data=train_x)
+
     f.close()
 
 if __name__ == "__main__":
