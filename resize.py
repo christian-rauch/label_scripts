@@ -9,6 +9,9 @@ import os
 from joblib import Parallel, delayed
 import multiprocessing
 
+# downsample image to 1/2 width and height, replace values
+# ./resize.py <image_path> [<replace?>]
+# replace?: 'y' to replace value 255 of channel 3 (green) with 19
 
 def resize(f):
     img = cv2.imread(f, cv2.CV_LOAD_IMAGE_UNCHANGED)
