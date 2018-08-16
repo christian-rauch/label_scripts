@@ -14,7 +14,7 @@ import multiprocessing
 # replace?: 'y' to replace value 255 of channel 3 (green) with 19
 
 def resize(f):
-    img = cv2.imread(f, cv2.CV_LOAD_IMAGE_UNCHANGED)
+    img = cv2.imread(f, cv2.IMREAD_UNCHANGED)
     if img.ndim > 2:
         img = img[:,:, 1]
 
