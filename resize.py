@@ -11,7 +11,7 @@ import multiprocessing
 
 # downsample image to 1/2 width and height, replace values
 # ./resize.py <image_path> [<replace?>]
-# replace?: 'y' to replace value 255 of channel 3 (green) with 19
+# replace?: replace value 255 of channel 3 (green) with this integer value
 
 def resize(f):
     img = cv2.imread(f, cv2.IMREAD_UNCHANGED)
@@ -20,10 +20,10 @@ def resize(f):
 
     img = img[::2, ::2]
 
-    if len(sys.argv)==3 and sys.argv[2]=='y':
+    if len(sys.argv)==3:
         if img.dtype == np.uint8:
             # replace green colour channel
-            img[img==255] = 19
+            img[img==255] = int(sys.argv[2])
         else:
             raise IOError("wrong image type")
 
